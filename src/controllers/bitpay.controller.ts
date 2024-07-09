@@ -148,8 +148,15 @@ export default class BitPayController {
   async createPayout(_req: Request, res: Response): Promise<void> {
     const notificationURL = _req.app.get("ngrokListenerUrl");
 
+    if (!_req.body.recipientId) {
+      res.status(500).json({
+        success: false,
+        error: 'Parameter recipientId is required.',
+      });
+    }
+
     try {
-      const invoice = await BitPayService.createPayout(notificationURL);
+      const invoice = await BitPayService.createPayout(notificationURL, _req.body.recipientId);
 
       if (invoice) {
         res.json(invoice);

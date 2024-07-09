@@ -215,10 +215,11 @@ class BitPayServiceImpl {
    */
   public async createPayout(
     notificationURL: string,
+    recipientId: string
   ): Promise<PayoutInterface | undefined> {
     const payout = new Payout(10.0, Currency.USD, Currency.USD);
     payout.notificationURL = notificationURL;
-    payout.recipientId = "VeZqrpU4j6gnVQGSFjGduC";
+    payout.recipientId = recipientId;
 
     try {
       const createdPayout: PayoutInterface =
