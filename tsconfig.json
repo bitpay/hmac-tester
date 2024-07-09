@@ -1,0 +1,36 @@
+{
+  "ts-node": { "files": true },
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "lib": ["es6", "dom"],
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types", "src/types"],
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "commands/**/*.ts"],
+  "exclude": ["node_modules"]
+}
