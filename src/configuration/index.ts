@@ -1,5 +1,6 @@
 import dotenvFlow from "dotenv-flow";
 
+// Read from .env file and/or environment
 dotenvFlow.config();
 
 export default {
