@@ -47,7 +47,9 @@ class BitPayServiceImpl {
    * @param eventName Name of the BitPay Event
    * @returns
    */
-  public async getTokenForEvent(eventName: string): Promise<string | undefined> {
+  public async getTokenForEvent(
+    eventName: string,
+  ): Promise<string | undefined> {
     const tokens = await this.getTokens();
 
     const eventsTable: Record<string, string> = {
@@ -121,7 +123,7 @@ class BitPayServiceImpl {
         });
       }
     }
-    
+
     return undefined;
   }
 
@@ -153,9 +155,7 @@ class BitPayServiceImpl {
    *
    * @param invoiceId Invoice ID
    */
-  public async resendInvoiceWebhook(
-    invoiceId: string,
-  ): Promise<boolean> {
+  public async resendInvoiceWebhook(invoiceId: string): Promise<boolean> {
     try {
       const invoiceWebhookResend =
         await this.client.requestInvoiceWebhookToBeResent(invoiceId);
@@ -186,7 +186,6 @@ class BitPayServiceImpl {
     amount: number,
     notificationURL: string,
   ): Promise<Refund | undefined> {
-    console.log(notificationURL);
     const token: string = (await this.getTokens()).merchant;
     const refund: Refund = new Refund(amount, invoiceId, token);
     refund.notificationURL = notificationURL;
@@ -215,7 +214,7 @@ class BitPayServiceImpl {
    */
   public async createPayout(
     notificationURL: string,
-    recipientId: string
+    recipientId: string,
   ): Promise<PayoutInterface | undefined> {
     const payout = new Payout(10.0, Currency.USD, Currency.USD);
     payout.notificationURL = notificationURL;

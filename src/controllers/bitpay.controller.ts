@@ -39,7 +39,7 @@ export default class BitPayController {
     if (!_req.params.invoiceId) {
       res.status(500).json({
         success: false,
-        error: 'Parameter invoiceId is required.',
+        error: "Parameter invoiceId is required.",
       });
     }
 
@@ -109,7 +109,7 @@ export default class BitPayController {
     if (!_req.params.invoiceId) {
       res.status(500).json({
         success: false,
-        error: 'Parameter invoiceId is required.',
+        error: "Parameter invoiceId is required.",
       });
     }
 
@@ -151,12 +151,15 @@ export default class BitPayController {
     if (!_req.body.recipientId) {
       res.status(500).json({
         success: false,
-        error: 'Parameter recipientId is required.',
+        error: "Parameter recipientId is required.",
       });
     }
 
     try {
-      const invoice = await BitPayService.createPayout(notificationURL, _req.body.recipientId);
+      const invoice = await BitPayService.createPayout(
+        notificationURL,
+        _req.body.recipientId,
+      );
 
       if (invoice) {
         res.json(invoice);
