@@ -1,4 +1,4 @@
-import { IHealthCheck } from "../interfaces";
+import { IHealthCheck } from '../interfaces';
 
 class StatusServiceImpl {
   /**
@@ -13,8 +13,8 @@ class StatusServiceImpl {
       mem: {
         heapTotal: mem.heapTotal,
         heapUsed: mem.heapUsed,
-        rss: mem.rss,
-      },
+        rss: mem.rss
+      }
     };
 
     return res;

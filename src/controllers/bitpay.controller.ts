@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { BitPayService } from "../services";
+import { Request, Response } from 'express';
+import { BitPayService } from '../services';
 
 export default class BitPayController {
   /**
@@ -9,7 +9,7 @@ export default class BitPayController {
    * @param res
    */
   async createInvoice(_req: Request, res: Response): Promise<void> {
-    const notificationURL = _req.app.get("ngrokListenerUrl");
+    const notificationURL = _req.app.get('ngrokListenerUrl');
     try {
       const invoice = await BitPayService.createInvoice(notificationURL);
 
@@ -23,7 +23,7 @@ export default class BitPayController {
       if (err instanceof Error) {
         res.status(500).json({
           success: false,
-          error: err.message,
+          error: err.message
         });
       }
     }
@@ -39,14 +39,14 @@ export default class BitPayController {
     if (!_req.params.invoiceId) {
       res.status(500).json({
         success: false,
-        error: "Parameter invoiceId is required.",
+        error: 'Parameter invoiceId is required.'
       });
     }
 
     try {
       if (_req.params.invoiceId) {
         const status = await BitPayService.resendInvoiceWebhook(
-          _req.params.invoiceId,
+          _req.params.invoiceId
         );
 
         if (status) {
@@ -60,7 +60,7 @@ export default class BitPayController {
       if (err instanceof Error) {
         res.status(500).json({
           success: false,
-          error: err.message,
+          error: err.message
         });
       }
     }
@@ -73,7 +73,7 @@ export default class BitPayController {
    * @param res
    */
   async createAndPayInvoice(_req: Request, res: Response): Promise<void> {
-    const notificationURL = _req.app.get("ngrokListenerUrl");
+    const notificationURL = _req.app.get('ngrokListenerUrl');
 
     try {
       const invoice = await BitPayService.createInvoice(notificationURL);
@@ -93,7 +93,7 @@ export default class BitPayController {
       if (err instanceof Error) {
         res.status(500).json({
           success: false,
-          error: err.message,
+          error: err.message
         });
       }
     }
@@ -109,17 +109,17 @@ export default class BitPayController {
     if (!_req.params.invoiceId) {
       res.status(500).json({
         success: false,
-        error: "Parameter invoiceId is required.",
+        error: 'Parameter invoiceId is required.'
       });
     }
 
     try {
-      const notificationURL = _req.app.get("ngrokListenerUrl");
+      const notificationURL = _req.app.get('ngrokListenerUrl');
       if (_req.params.invoiceId) {
         const refund = await BitPayService.createRefund(
           _req.params.invoiceId,
           100.0,
-          notificationURL,
+          notificationURL
         );
 
         if (refund) {
@@ -133,7 +133,7 @@ export default class BitPayController {
       if (err instanceof Error) {
         res.status(500).json({
           success: false,
-          error: err.message,
+          error: err.message
         });
       }
     }
@@ -146,19 +146,19 @@ export default class BitPayController {
    * @param res
    */
   async createPayout(_req: Request, res: Response): Promise<void> {
-    const notificationURL = _req.app.get("ngrokListenerUrl");
+    const notificationURL = _req.app.get('ngrokListenerUrl');
 
     if (!_req.body.recipientId) {
       res.status(500).json({
         success: false,
-        error: "Parameter recipientId is required.",
+        error: 'Parameter recipientId is required.'
       });
     }
 
     try {
       const invoice = await BitPayService.createPayout(
         notificationURL,
-        _req.body.recipientId,
+        _req.body.recipientId
       );
 
       if (invoice) {
@@ -171,23 +171,26 @@ export default class BitPayController {
       if (err instanceof Error) {
         res.status(500).json({
           success: false,
-          error: err.message,
+          error: err.message
         });
       }
     }
   }
 
   async inviteRecipient(_req: Request, res: Response): Promise<void> {
-    const notificationURL = _req.app.get("ngrokListenerUrl");
+    const notificationURL = _req.app.get('ngrokListenerUrl');
 
     if (!_req.body.email) {
-      throw new Error("The body field is required.");
+      res.status(500).json({
+        success: false,
+        error: 'The body field is required.'
+      });
     }
 
     try {
       const recipient = await BitPayService.inviteRecipient(
         _req.body.email,
-        notificationURL,
+        notificationURL
       );
 
       if (recipient) {
@@ -200,7 +203,7 @@ export default class BitPayController {
       if (err instanceof Error) {
         res.status(500).json({
           success: false,
-          error: err.message,
+          error: err.message
         });
       }
     }

@@ -1,5 +1,5 @@
 {
-  "ts-node": { "files": true },
+  "ts-node": { "files": true},
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
@@ -32,5 +32,5 @@
     "allowUnreachableCode": false
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "commands/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

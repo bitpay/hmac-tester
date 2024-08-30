@@ -1,18 +1,18 @@
-import configuration from "../configuration";
-import logger from "../logger";
-import { IBitPayTokens } from "../interfaces";
-import { Client, Currency, Facade } from "bitpay-sdk";
+import configuration from '../configuration';
+import logger from '../logger';
+import { IBitPayTokens } from '../interfaces';
+import { Client, Currency, Facade } from 'bitpay-sdk';
 import {
   Payout,
   PayoutInterface,
   PayoutRecipient,
   PayoutRecipientInterface,
-  PayoutRecipients,
-} from "bitpay-sdk/dist/Model";
-import { Buyer } from "bitpay-sdk/dist/Model/Invoice/Buyer";
-import { Invoice } from "bitpay-sdk/dist/Model/Invoice/Invoice";
-import { Refund } from "bitpay-sdk/dist/Model/Invoice/Refund";
-import BitPayApiException from "bitpay-sdk/dist/Exceptions/BitPayApiException";
+  PayoutRecipients
+} from 'bitpay-sdk/dist/Model';
+import { Buyer } from 'bitpay-sdk/dist/Model/Invoice/Buyer';
+import { Invoice } from 'bitpay-sdk/dist/Model/Invoice/Invoice';
+import { Refund } from 'bitpay-sdk/dist/Model/Invoice/Refund';
+import BitPayApiException from 'bitpay-sdk/dist/Exceptions/BitPayApiException';
 
 class BitPayServiceImpl {
   client: Client;
@@ -35,7 +35,7 @@ class BitPayServiceImpl {
   public async getTokens(): Promise<IBitPayTokens> {
     const tokens = {
       merchant: this.client.getToken(Facade.Merchant),
-      payout: this.client.getToken(Facade.Payout),
+      payout: this.client.getToken(Facade.Payout)
     };
 
     return tokens;
@@ -48,7 +48,7 @@ class BitPayServiceImpl {
    * @returns
    */
   public async getTokenForEvent(
-    eventName: string,
+    eventName: string
   ): Promise<string | undefined> {
     const tokens = await this.getTokens();
 
@@ -76,7 +76,7 @@ class BitPayServiceImpl {
       payout_processing: tokens.payout,
       payout_completed: tokens.payout,
       payout_cancelled: tokens.payout,
-      payout_manuallyNotified: tokens.payout,
+      payout_manuallyNotified: tokens.payout
     };
 
     const token = eventsTable[eventName];
@@ -91,22 +91,22 @@ class BitPayServiceImpl {
    * @returns
    */
   public async createInvoice(
-    notificationURL: string,
+    notificationURL: string
   ): Promise<Invoice | undefined> {
-    const invoice: Invoice = new Invoice(100.0, "USD");
-    invoice.notificationEmail = "rbrodie@itx.com";
+    const invoice: Invoice = new Invoice(100.0, 'USD');
+    invoice.notificationEmail = 'rbrodie@itx.com';
     invoice.notificationURL = notificationURL;
 
     const buyer: Buyer = new Buyer();
-    buyer.name = "Test";
-    buyer.email = "rbrodie85@gmail.com";
-    buyer.address1 = "168 General Grove";
-    buyer.country = "AD";
-    buyer.locality = "Port Horizon";
+    buyer.name = 'Test';
+    buyer.email = 'rbrodie85@gmail.com';
+    buyer.address1 = '168 General Grove';
+    buyer.country = 'AD';
+    buyer.locality = 'Port Horizon';
     buyer.notify = true;
-    buyer.phone = "+990123456789";
-    buyer.postalCode = "KY7 1TH";
-    buyer.region = "New Port";
+    buyer.phone = '+990123456789';
+    buyer.postalCode = 'KY7 1TH';
+    buyer.region = 'New Port';
 
     invoice.buyer = buyer;
 
@@ -115,11 +115,11 @@ class BitPayServiceImpl {
       return createdInvoice;
     } catch (err: unknown) {
       if (err instanceof BitPayApiException) {
-        logger.error("Could not create invoice.", {
-          code: "INVOICE_CREATE_FAIL",
+        logger.error('Could not create invoice.', {
+          code: 'INVOICE_CREATE_FAIL',
           context: {
-            error: err.message,
-          },
+            error: err.message
+          }
         });
       }
     }
@@ -134,14 +134,14 @@ class BitPayServiceImpl {
    */
   public async payInvoice(invoiceId: string): Promise<void> {
     try {
-      await this.client.payInvoice(invoiceId, "complete");
+      await this.client.payInvoice(invoiceId, 'complete');
     } catch (err: unknown) {
       if (err instanceof BitPayApiException) {
-        logger.error("Could not pay invoice.", {
-          code: "INVOICE_PAY_FAIL",
+        logger.error('Could not pay invoice.', {
+          code: 'INVOICE_PAY_FAIL',
           context: {
-            error: err.message,
-          },
+            error: err.message
+          }
         });
       }
     }
@@ -162,11 +162,11 @@ class BitPayServiceImpl {
       return invoiceWebhookResend;
     } catch (err: unknown) {
       if (err instanceof BitPayApiException) {
-        logger.error("Could not request invoice webhook to be resent.", {
-          code: "INVOICE_REQUEST_WEBHOOK_FAIL",
+        logger.error('Could not request invoice webhook to be resent.', {
+          code: 'INVOICE_REQUEST_WEBHOOK_FAIL',
           context: {
-            error: err.message,
-          },
+            error: err.message
+          }
         });
       }
     }
@@ -184,7 +184,7 @@ class BitPayServiceImpl {
   public async createRefund(
     invoiceId: string,
     amount: number,
-    notificationURL: string,
+    notificationURL: string
   ): Promise<Refund | undefined> {
     const token: string = (await this.getTokens()).merchant;
     const refund: Refund = new Refund(amount, invoiceId, token);
@@ -195,11 +195,11 @@ class BitPayServiceImpl {
       return createdRefund;
     } catch (err: unknown) {
       if (err instanceof BitPayApiException) {
-        logger.error("Could not create refund.", {
-          code: "REFUND_CREATE_FAIL",
+        logger.error('Could not create refund.', {
+          code: 'REFUND_CREATE_FAIL',
           context: {
-            error: err.message,
-          },
+            error: err.message
+          }
         });
       }
     }
@@ -214,7 +214,7 @@ class BitPayServiceImpl {
    */
   public async createPayout(
     notificationURL: string,
-    recipientId: string,
+    recipientId: string
   ): Promise<PayoutInterface | undefined> {
     const payout = new Payout(10.0, Currency.USD, Currency.USD);
     payout.notificationURL = notificationURL;
@@ -226,11 +226,11 @@ class BitPayServiceImpl {
       return createdPayout;
     } catch (err: unknown) {
       if (err instanceof BitPayApiException) {
-        logger.error("Could not create payout.", {
-          code: "PAYOUT_CREATE_FAIL",
+        logger.error('Could not create payout.', {
+          code: 'PAYOUT_CREATE_FAIL',
           context: {
-            error: err.message,
-          },
+            error: err.message
+          }
         });
       }
     }
@@ -246,7 +246,7 @@ class BitPayServiceImpl {
    */
   public async inviteRecipient(
     email: string,
-    notificationURL: string,
+    notificationURL: string
   ): Promise<PayoutRecipientInterface[] | undefined> {
     const payoutRecipient = new PayoutRecipient(email, null, notificationURL);
     const payoutRecipients = new PayoutRecipients([payoutRecipient]);
@@ -257,11 +257,11 @@ class BitPayServiceImpl {
       return recipients;
     } catch (err: unknown) {
       if (err instanceof BitPayApiException) {
-        logger.error("Could not invite recipient.", {
-          code: "RECIPIENT_INVITE_FAIL",
+        logger.error('Could not invite recipient.', {
+          code: 'RECIPIENT_INVITE_FAIL',
           context: {
-            error: err.message,
-          },
+            error: err.message
+          }
         });
       }
     }

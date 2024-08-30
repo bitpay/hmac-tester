@@ -1,4 +1,4 @@
-import { IBitPayWebhookValidationResult } from "../../interfaces";
+import { IBitPayWebhookValidationResult } from '../../interfaces';
 
 export interface IBitPayWebhookValidationResponse {
   event: string;

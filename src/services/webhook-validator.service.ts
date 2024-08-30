@@ -1,6 +1,6 @@
-import crypto from "node:crypto";
-import logger from "../logger";
-import { IBitPayWebhookValidationResult } from "../interfaces";
+import crypto from 'node:crypto';
+import logger from '../logger';
+import { IBitPayWebhookValidationResult } from '../interfaces';
 
 class WebhookValidatorServiceImpl {
   /**
@@ -15,27 +15,27 @@ class WebhookValidatorServiceImpl {
   async validateWebhook(
     signingKey: string,
     body: string,
-    header: string,
+    header: string
   ): Promise<IBitPayWebhookValidationResult | undefined> {
     try {
-      const hmac = crypto.createHmac("sha256", signingKey);
+      const hmac = crypto.createHmac('sha256', signingKey);
       hmac.update(body);
-      const calculated = hmac.digest("base64");
+      const calculated = hmac.digest('base64');
 
       const result: IBitPayWebhookValidationResult = {
         header: header,
         calculated: calculated,
-        validated: header === calculated,
+        validated: header === calculated
       };
 
       return result;
     } catch (err: unknown) {
       if (err instanceof Error) {
-        logger.error("Could validate webhook.", {
-          code: "WEBHOOK_VALIDATE_FAIL",
+        logger.error('Could validate webhook.', {
+          code: 'WEBHOOK_VALIDATE_FAIL',
           context: {
-            error: err.message,
-          },
+            error: err.message
+          }
         });
       }
     }
