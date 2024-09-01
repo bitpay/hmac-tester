@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { StatusService } from "../services";
-import { IHealthCheck } from "../interfaces";
+import { Request, Response } from 'express';
+import { StatusService } from '../services';
+import { IHealthCheck } from '../interfaces';
 
 export default class HealthController {
   /**

@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import logger from "../logger";
-import { BitPayService } from "../services";
-import { IBitPayWebhookValidationResponse } from "../interfaces";
-import { WebhookValidatorService } from "../services";
+import { Request, Response } from 'express';
+import logger from '../logger';
+import { BitPayService } from '../services';
+import { IBitPayWebhookValidationResponse } from '../interfaces';
+import { WebhookValidatorService } from '../services';
 
 export default class WebhookValidatorController {
   /**
@@ -13,12 +13,12 @@ export default class WebhookValidatorController {
    */
   async validate(req: Request, res: Response): Promise<void | undefined> {
     const body = JSON.stringify(req.body);
-    let xSignature: string = "";
+    let xSignature: string = '';
 
-    if (!req.headers["x-signature"]) {
+    if (!req.headers['x-signature']) {
       res.status(500).json({
         success: false,
-        error: "The x-signature header is required.",
+        error: 'The x-signature header is required.'
       });
       return;
     }
@@ -26,13 +26,13 @@ export default class WebhookValidatorController {
     if (!body) {
       res.status(500).json({
         success: false,
-        error: "A non-empty body is required.",
+        error: 'A non-empty body is required.'
       });
       return;
     }
 
-    if (req.headers["x-signature"]) {
-      xSignature = req.headers["x-signature"].toString();
+    if (req.headers['x-signature']) {
+      xSignature = req.headers['x-signature'].toString();
     }
 
     const token = await BitPayService.getTokenForEvent(req.body.event?.name);
@@ -40,7 +40,7 @@ export default class WebhookValidatorController {
     if (!token) {
       res.status(500).json({
         success: false,
-        error: "Token not found.",
+        error: 'Token not found.'
       });
       return;
     }
@@ -49,19 +49,19 @@ export default class WebhookValidatorController {
       const validation = await WebhookValidatorService.validateWebhook(
         token,
         body,
-        xSignature,
+        xSignature
       );
 
       const result: IBitPayWebhookValidationResponse = {
         event: req.body.event?.name,
         token: token,
         body: body,
-        validation: validation,
+        validation: validation
       };
 
-      logger.info("Webhook validation completed.", {
-        code: "WEBHOOK_VALIDATION_COMPLETE",
-        context: result,
+      logger.info('Webhook validation completed.', {
+        code: 'WEBHOOK_VALIDATION_COMPLETE',
+        context: result
       });
 
       res.json(result);
@@ -69,7 +69,7 @@ export default class WebhookValidatorController {
       if (err instanceof Error) {
         res.status(500).json({
           success: false,
-          error: err.message,
+          error: err.message
         });
       }
     }

@@ -1,4 +1,4 @@
-import winston from "winston";
+import winston from 'winston';
 
 export class ApplicationLogger {
   protected logger: winston.Logger;
@@ -9,7 +9,7 @@ export class ApplicationLogger {
   constructor() {
     this.logger = winston.createLogger({
       format: winston.format.json(),
-      transports: [new winston.transports.Console()],
+      transports: [new winston.transports.Console()]
     });
   }
 
@@ -23,7 +23,7 @@ export class ApplicationLogger {
   public log(level: string, message: string, context?: object): void {
     this.logger.log(level, message, {
       timestamp: Date.now(),
-      ...context,
+      ...context
     });
   }
 
@@ -34,7 +34,7 @@ export class ApplicationLogger {
    * @param context Log metadata
    */
   public debug(message: string, context?: object): void {
-    this.log("debug", message, context);
+    this.log('debug', message, context);
   }
 
   /**
@@ -44,7 +44,7 @@ export class ApplicationLogger {
    * @param context Log metadata
    */
   public info(message: string, context?: object): void {
-    this.log("info", message, context);
+    this.log('info', message, context);
   }
 
   /**
@@ -54,7 +54,7 @@ export class ApplicationLogger {
    * @param context Log metadata
    */
   public warning(message: string, context?: object): void {
-    this.log("warning", message, context);
+    this.log('warning', message, context);
   }
 
   /**
@@ -64,7 +64,7 @@ export class ApplicationLogger {
    * @param context Log metadata
    */
   public error(message: string, context?: object): void {
-    this.log("error", message, context);
+    this.log('error', message, context);
   }
 }
 
