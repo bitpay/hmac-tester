@@ -38,7 +38,7 @@
   "dependencies": {
     "@types/express": "4.17.21",
     "bitpay-sdk": "6.0.0",
-    "body-parser": "1.20.2",
+    "body-parser": "1.20.3",
     "dotenv-flow": "4.1.0",
     "express": "4.19.2",
     "express-winston": "4.2.0",
