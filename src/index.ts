@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser';
 import express from 'express';
 import expressWinston from 'express-winston';
 import ngrok from '@ngrok/ngrok';
@@ -10,7 +9,6 @@ import routes from './routes';
 const app: express.Application = express();
 
 app.use(express.json());
-app.use(bodyParser.json());
 
 app.use('/', routes);
 
