@@ -40,7 +40,7 @@
     "typescript-eslint": "8.20.0"
   },
   "dependencies": {
-    "bitpay-sdk": "6.0.0",
+    "bitpay-sdk": "6.3.0",
     "dotenv-flow": "4.1.0",
     "express": "4.21.2",
     "express-winston": "4.2.0",
